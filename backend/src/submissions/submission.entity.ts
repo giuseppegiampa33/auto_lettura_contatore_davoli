@@ -17,7 +17,10 @@ export class Submission {
   matricola: string;
 
   @Column()
-  utente: string; // Nome e Cognome
+  nome: string;
+
+  @Column()
+  cognome: string;
 
   @Column()
   indirizzo: string; // Via e Civico

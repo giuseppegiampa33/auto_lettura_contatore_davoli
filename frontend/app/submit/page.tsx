@@ -141,7 +141,8 @@ export default function SubmitPage() {
 
     // Form state
     const [matricola, setMatricola] = useState("");
-    const [utente, setUtente] = useState("");
+    const [nome, setNome] = useState("");
+    const [cognome, setCognome] = useState("");
     const [indirizzo, setIndirizzo] = useState("");
     const [uso, setUso] = useState("domestico");
     const [dataLettura, setDataLettura] = useState(
@@ -207,7 +208,8 @@ export default function SubmitPage() {
     const validate = (): boolean => {
         const newErrors: FormErrors = {};
         if (!matricola.trim()) newErrors.matricola = "La matricola è obbligatoria.";
-        if (!utente.trim()) newErrors.utente = "Il nome dell'utente è obbligatorio.";
+        if (!nome.trim()) newErrors.nome = "Il nome è obbligatorio.";
+        if (!cognome.trim()) newErrors.cognome = "Il cognome è obbligatorio.";
         if (!indirizzo.trim()) newErrors.indirizzo = "L'indirizzo è obbligatorio.";
         if (!codiceFiscale.trim()) newErrors.codiceFiscale = "Il codice fiscale è obbligatorio.";
         if (!telefono.trim()) newErrors.telefono = "Il recapito telefonico è obbligatorio.";
@@ -230,7 +232,8 @@ export default function SubmitPage() {
         try {
             const formData = new FormData();
             formData.append("matricola", matricola.trim());
-            formData.append("utente", utente.trim());
+            formData.append("nome", nome.trim());
+            formData.append("cognome", cognome.trim());
             formData.append("indirizzo", indirizzo.trim());
             formData.append("uso", uso);
             formData.append("data_lettura", dataLettura);
@@ -256,7 +259,8 @@ export default function SubmitPage() {
             // Pass minimal data to confirm page
             const params = new URLSearchParams({
                 id: result.id,
-                utente: utente.trim(),
+                nome: nome.trim(),
+                cognome: cognome.trim(),
                 date: dateStr,
             });
             router.push(`/confirm?${params.toString()}`);
@@ -404,7 +408,8 @@ export default function SubmitPage() {
                                     gap: 20,
                                 }}
                             >
-                                <InputField label="Utente (Nome e Cognome)" name="utente" value={utente} onChange={setUtente} required placeholder="es. Mario Rossi" error={errors.utente} />
+                                <InputField label="Nome" name="nome" value={nome} onChange={setNome} required placeholder="es. Mario" error={errors.nome} />
+                                <InputField label="Cognome" name="cognome" value={cognome} onChange={setCognome} required placeholder="es. Rossi" error={errors.cognome} />
                                 <InputField label="Via e Numero Civico" name="indirizzo" value={indirizzo} onChange={setIndirizzo} required placeholder="es. Via Roma, 1" error={errors.indirizzo} />
                                 <InputField label="Codice Fiscale" name="codiceFiscale" value={codiceFiscale} onChange={setCodiceFiscale} required placeholder="RSSMRA80A01H501Z" error={errors.codiceFiscale} />
                                 <InputField label="Recapito Telefonico" name="telefono" value={telefono} onChange={setTelefono} required placeholder="333 1234567" error={errors.telefono} />

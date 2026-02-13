@@ -8,7 +8,8 @@ import { useState, Suspense, useEffect } from "react";
 function ConfirmContent() {
     const searchParams = useSearchParams();
     const id = searchParams.get("id") || "N/D";
-    const utente = searchParams.get("utente") || "Utente";
+    const nome = searchParams.get("nome") || "Nome";
+    const cognome = searchParams.get("cognome") || "Cognome";
     const dateParam = searchParams.get("date");
 
     const [mounted, setMounted] = useState(false);
@@ -133,7 +134,7 @@ function ConfirmContent() {
                                 </div>
                                 <div>
                                     <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Utente</div>
-                                    <div style={{ fontSize: 15, fontWeight: 600, color: "#334155" }}>{utente}</div>
+                                    <div style={{ fontSize: 15, fontWeight: 600, color: "#334155" }}>{nome} {cognome}</div>
                                 </div>
                             </div>
                             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -143,32 +144,6 @@ function ConfirmContent() {
                                 <div>
                                     <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#94a3b8" }}>Data Invio</div>
                                     <div style={{ fontSize: 15, fontWeight: 600, color: "#334155" }}>{dateFormatted}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Timeline */}
-                        <div style={{ position: "relative", padding: "0 10px", marginBottom: 40 }}>
-                            {/* Linea base */}
-                            <div style={{ position: "absolute", top: 14, left: 0, right: 0, height: 4, background: "#f1f5f9", borderRadius: 4, zIndex: 0 }}></div>
-                            {/* Linea progresso */}
-                            <div style={{ position: "absolute", top: 14, left: 0, width: "33%", height: 4, background: "#2563eb", borderRadius: 4, zIndex: 0 }}></div>
-
-                            <div style={{ display: "flex", justifyContent: "space-between", position: "relative", zIndex: 1 }}>
-                                {/* Step 1 */}
-                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#2563eb", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, boxShadow: "0 0 0 4px #fff" }}>1</div>
-                                    <span style={{ fontSize: 12, fontWeight: 700, color: "#2563eb" }}>Inviato</span>
-                                </div>
-                                {/* Step 2 */}
-                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#e2e8f0", color: "#94a3b8", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, boxShadow: "0 0 0 4px #fff" }}>2</div>
-                                    <span style={{ fontSize: 12, fontWeight: 600, color: "#94a3b8" }}>In Lavorazione</span>
-                                </div>
-                                {/* Step 3 */}
-                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#e2e8f0", color: "#94a3b8", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 14, boxShadow: "0 0 0 4px #fff" }}>3</div>
-                                    <span style={{ fontSize: 12, fontWeight: 600, color: "#94a3b8" }}>Validato</span>
                                 </div>
                             </div>
                         </div>
@@ -186,6 +161,10 @@ function ConfirmContent() {
                             transition: "all 0.2s"
                         }}
                             className="hover:border-blue-300 hover:bg-blue-50/30 group"
+                            onClick={() => {
+                                const url = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/submissions/${id}/pdf`;
+                                window.open(url, '_blank');
+                            }}
                         >
                             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", color: "#64748b", border: "1px solid #e2e8f0" }} className="group-hover:text-red-500 group-hover:border-red-100">

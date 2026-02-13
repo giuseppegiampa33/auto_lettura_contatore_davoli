@@ -9,7 +9,11 @@ export class CreateSubmissionDto {
 
     @IsString()
     @IsNotEmpty()
-    utente: string;
+    nome: string;
+
+    @IsString()
+    @IsNotEmpty()
+    cognome: string;
 
     @IsString()
     @IsNotEmpty()

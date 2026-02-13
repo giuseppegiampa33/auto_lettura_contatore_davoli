@@ -42,4 +42,54 @@ export class SubmissionsService {
     async findAll(): Promise<Submission[]> {
         return this.submissionRepository.find({ order: { created_at: 'DESC' } });
     }
+
+    async findOne(id: string): Promise<Submission | null> {
+        return this.submissionRepository.findOne({ where: { id } });
+    }
+
+    async generatePdf(id: string): Promise<Buffer> {
+        const submission = await this.findOne(id);
+        if (!submission) {
+            throw new Error('Submission not found');
+        }
+
+        const PDFDocument = require('pdfkit');
+        const doc = new PDFDocument();
+        const buffers: Buffer[] = [];
+
+        doc.on('data', buffers.push.bind(buffers));
+        doc.on('end', () => { });
+
+        // Header
+        doc.fontSize(20).text('Ricevuta Autolettura Idrica', { align: 'center' });
+        doc.moveDown();
+        doc.fontSize(12).text(`Comune di Davoli`, { align: 'center' });
+        doc.moveDown(2);
+
+        // Details
+        doc.fontSize(14).text(`Codice Pratica: ${submission.id}`);
+        doc.moveDown();
+        doc.fontSize(12).text(`Utente: ${submission.nome} ${submission.cognome}`);
+        doc.text(`Codice Fiscale: ${submission.codice_fiscale}`);
+        doc.text(`Email: ${submission.email}`);
+        doc.text(`Telefono: ${submission.telefono}`);
+        doc.moveDown();
+        doc.text(`Indirizzo Fornitura: ${submission.indirizzo}`);
+        doc.text(`Matricola Contatore: ${submission.matricola}`);
+        doc.text(`Lettura Annuale: ${submission.lettura_annuale}`);
+        doc.text(`Data Invio: ${submission.created_at.toLocaleString('it-IT')}`);
+        doc.moveDown(2);
+
+        // Footer
+        doc.fontSize(10).text('Questa ricevuta è generata automaticamente.', { align: 'center', color: 'grey' });
+
+        doc.end();
+
+        return new Promise((resolve) => {
+            doc.on('end', () => {
+                const pdfData = Buffer.concat(buffers);
+                resolve(pdfData);
+            });
+        });
+    }
 }
