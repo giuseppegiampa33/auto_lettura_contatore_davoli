@@ -252,7 +252,14 @@ export default function SubmitPage() {
             }
 
             const result = await response.json();
-            router.push(`/confirm?id=${result.id}`);
+            const dateStr = new Date().toISOString();
+            // Pass minimal data to confirm page
+            const params = new URLSearchParams({
+                id: result.id,
+                utente: utente.trim(),
+                date: dateStr,
+            });
+            router.push(`/confirm?${params.toString()}`);
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Errore durante l'invio.";
             setSubmitError(message);
