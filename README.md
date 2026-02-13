@@ -45,33 +45,30 @@ Autolettura/
 └── docker-compose.yml          # MySQL + MinIO + Backend + Frontend
 ```
 
-## Avvio Rapido (Sviluppo)
+## Avvio Rapido
 
-### Prerequisiti
-- **Node.js** >= 18
-- **Docker** e **Docker Compose** (per MySQL e MinIO)
+Il progetto è completamente dockerizzato. Segui questi passaggi per avviare l'intero stack:
 
-### 1. Avviare i servizi di supporto
+### 1. Avvio con Docker Compose
+Dalla cartella principale del progetto:
 ```bash
-docker-compose up -d mysql minio createbuckets
+docker-compose up -d
+```
+Questo comando avvierà:
+- **MySQL**: Database (Porta 3307)
+- **MinIO**: Storage S3 (Porte 9002, 9003)
+- **Backend**: API NestJS (Porta 3001)
+- **Frontend**: App Next.js (Porta 3000)
+
+### 2. Verifica Stato
+```bash
+docker-compose ps
 ```
 
-### 2. Backend
-```bash
-cd backend
-cp .env.example .env        # (il .env è già presente per dev)
-npm install
-npm run start:dev
-```
-Backend → `http://localhost:3001`
-
-### 3. Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-Frontend → `http://localhost:3000`
+### 3. Accesso
+- **Frontend**: `http://localhost:3000`
+- **Backend API**: `http://localhost:3001`
+- **Dashboard Admin**: `http://localhost:3000/admin` (User/Pass: `admin`/`admin`)
 
 ### 4. Login Admin (dev)
 - URL: `http://localhost:3000/admin`
