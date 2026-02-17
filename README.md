@@ -138,8 +138,8 @@ Assicurarsi di aggiornare le variabili ambiente con valori sicuri.
 - [x] **Segreti via env**: nessuna credenziale nel codice
 - [x] **GDPR**: informativa privacy con base giuridica, finalità, retention
 - [x] **Checkbox privacy**: obbligatoria prima dell'invio
-- [x] **Rate limiting**: Configurato con `@nestjs/throttler`
+- [ ] **Rate limiting**: Da configurare con `@nestjs/throttler` in produzione
 - [ ] **CAPTCHA/Anti-bot**: Da integrare (es. hCaptcha) in produzione
 - [ ] **TOTP MFA**: Predisposto, da attivare per admin
 - [ ] **Antivirus hook**: Opzionale, da configurare
-- [x] **Data retention cron**: Schedulato per cancellazione foto (verificare configurazione)
+- [ ] **Data retention cron**: Da schedulare per cancellazione foto
