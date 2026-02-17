@@ -1,6 +1,6 @@
 # Stato Globale del Progetto - Autolettura Davoli
 
-## Data: 13 Febbraio 2026
+## Data: 17 Febbraio 2026
 
 ### Panoramica Architetturale
 Il sistema è composto da quattro servizi principali che girano in container Docker:
