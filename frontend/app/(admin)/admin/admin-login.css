@@ -1,13 +1,13 @@
 .admin-login-body {
-    min-height: 100vh;
+    min-height: 100%;
+    flex: 1;
     background-color: #f8fafc;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    /* Ridotto per evitare scroll su schermi piccoli */
+    padding: 10px;
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 

@@ -38,6 +38,13 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+.admin-root-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ── Section rhythm ── */

@@ -109,9 +109,9 @@ export default function AdminDashboard() {
 
     // Filter logic
     const filtered = submissions.filter(s =>
-        s.utente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        s.matricola.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        s.indirizzo.toLowerCase().includes(searchTerm.toLowerCase())
+        (s.utente?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (s.matricola?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (s.indirizzo?.toLowerCase() || "").includes(searchTerm.toLowerCase())
     );
 
     const paged = filtered.slice(page * perPage, (page + 1) * perPage);
@@ -125,7 +125,7 @@ export default function AdminDashboard() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] animate-fade-in pb-20">
+        <div className="flex-1 bg-[#f8fafc] animate-fade-in pb-20 overflow-x-hidden">
             {/* Header Background */}
             <div className="bg-white border-b border-slate-200">
                 <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
