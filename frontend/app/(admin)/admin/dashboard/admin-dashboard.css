@@ -240,6 +240,66 @@
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
+/* ── Date Filter ── */
+.date-filter-wrapper {
+    position: relative;
+    max-width: 200px;
+    width: 100%;
+}
+
+.date-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.date-input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #334155;
+    outline: none;
+    transition: all 0.2s;
+    appearance: none;
+}
+
+.date-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.clear-date {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.clear-date:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
 /* ── Table ── */
 .table-responsive {
     overflow-x: auto;

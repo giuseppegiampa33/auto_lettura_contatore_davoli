@@ -50,6 +50,7 @@ export default function AdminDashboard() {
     const [selectedSub, setSelectedSub] = useState<Submission | null>(null);
     const [page, setPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
+    const [dateFilter, setDateFilter] = useState("");
     const perPage = 15;
 
     const getToken = () => localStorage.getItem("admin_token") || "";
@@ -112,12 +113,17 @@ export default function AdminDashboard() {
     };
 
     // Filter logic
-    const filtered = submissions.filter(s =>
-        (s.nome?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-        (s.cognome?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-        (s.matricola?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-        (s.indirizzo?.toLowerCase() || "").includes(searchTerm.toLowerCase())
-    );
+    const filtered = submissions.filter(s => {
+        const matchesSearch =
+            (s.nome?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (s.cognome?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (s.matricola?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (s.indirizzo?.toLowerCase() || "").includes(searchTerm.toLowerCase());
+
+        const matchesDate = !dateFilter || new Date(s.created_at).toISOString().split('T')[0] === dateFilter;
+
+        return matchesSearch && matchesDate;
+    });
 
     const paged = filtered.slice(page * perPage, (page + 1) * perPage);
     const totalPages = Math.ceil(filtered.length / perPage);
@@ -190,6 +196,26 @@ export default function AdminDashboard() {
                                 onChange={(e) => { setSearchTerm(e.target.value); setPage(0); }}
                                 className="search-input"
                             />
+                        </div>
+
+                        <div className="date-filter-wrapper">
+                            <Calendar className="date-icon" />
+                            <input
+                                type="date"
+                                value={dateFilter}
+                                onChange={(e) => { setDateFilter(e.target.value); setPage(0); }}
+                                className="date-input"
+                                title="Filtra per data di invio"
+                            />
+                            {dateFilter && (
+                                <button
+                                    onClick={() => setDateFilter("")}
+                                    className="clear-date"
+                                    title="Rimuovi filtro data"
+                                >
+                                    <X size={14} />
+                                </button>
+                            )}
                         </div>
 
                         <button
