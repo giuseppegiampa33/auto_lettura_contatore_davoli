@@ -25,15 +25,19 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 interface Submission {
     id: string;
     matricola: string;
-    utente: string;
+    nome: string;
+    cognome: string;
+    codice_fiscale: string;
+    telefono: string;
+    email: string | null;
     indirizzo: string;
     uso: string;
     data_lettura: string;
     lettura_annuale: number;
     lettura_precedente: number | null;
-    numero_utenza: string | null;
-    numero_fattura: string | null;
-    data_ultima_fattura: string | null;
+    numero_utenza?: string | null;
+    numero_fattura?: string | null;
+    data_ultima_fattura?: string | null;
     foto_url: string | null;
     created_at: string;
 }
@@ -88,15 +92,13 @@ export default function AdminDashboard() {
     const downloadCSV = () => {
         if (!submissions.length) return;
         const headers = [
-            "ID", "Matricola", "Utente", "Indirizzo", "Uso",
+            "ID", "Matricola", "Cognome", "Nome", "Codice Fiscale", "Telefono", "Email", "Indirizzo", "Uso",
             "Data Lettura", "Lettura Annuale (mc)", "Lettura Precedente (mc)",
-            "N. Utenza", "N. Fattura", "Data Ultima Fattura", "Data Invio",
+            "Data Invio",
         ];
         const rows = submissions.map((s) => [
-            s.id, s.matricola, s.utente, s.indirizzo, s.uso,
+            s.id, s.matricola, s.cognome, s.nome, s.codice_fiscale, s.telefono, s.email ?? "", s.indirizzo, s.uso,
             s.data_lettura, s.lettura_annuale, s.lettura_precedente ?? "",
-            s.numero_utenza ?? "", s.numero_fattura ?? "",
-            s.data_ultima_fattura ?? "",
             new Date(s.created_at).toLocaleString("it-IT"),
         ]);
         const csv = "\uFEFF" + [headers.join(";"), ...rows.map((r) => r.join(";"))].join("\n");
@@ -111,7 +113,8 @@ export default function AdminDashboard() {
 
     // Filter logic
     const filtered = submissions.filter(s =>
-        (s.utente?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (s.nome?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+        (s.cognome?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
         (s.matricola?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
         (s.indirizzo?.toLowerCase() || "").includes(searchTerm.toLowerCase())
     );
@@ -122,7 +125,7 @@ export default function AdminDashboard() {
     // Stats
     const stats = [
         { label: "Autoletture Totali", value: submissions.length, icon: FileText },
-        { label: "Utenti Unici", value: new Set(submissions.map(s => s.utente)).size, icon: Users },
+        { label: "Utenti Unici", value: new Set(submissions.map(s => `${s.cognome} ${s.nome}`)).size, icon: Users },
         { label: "Letture Oggi", value: submissions.filter(s => new Date(s.created_at).toDateString() === new Date().toDateString()).length, icon: Calendar },
     ];
 
@@ -182,7 +185,7 @@ export default function AdminDashboard() {
                             <Search className="search-icon" />
                             <input
                                 type="text"
-                                placeholder="Cerca per matricola, utente..."
+                                placeholder="Cerca per matricola, cognome, nome..."
                                 value={searchTerm}
                                 onChange={(e) => { setSearchTerm(e.target.value); setPage(0); }}
                                 className="search-input"
@@ -212,7 +215,7 @@ export default function AdminDashboard() {
                                 <tr>
                                     <th>Data Invio</th>
                                     <th>Matricola</th>
-                                    <th>Utente</th>
+                                    <th>Utente (Cognome Nome)</th>
                                     <th>Indirizzo</th>
                                     <th>Uso</th>
                                     <th style={{ textAlign: 'right' }}>Lettura (mc)</th>
@@ -243,7 +246,7 @@ export default function AdminDashboard() {
                                                 {s.matricola}
                                             </td>
                                             <td style={{ fontWeight: 500, color: '#0f172a' }}>
-                                                {s.utente}
+                                                {s.cognome} {s.nome}
                                             </td>
                                             <td style={{ color: '#64748b', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={s.indirizzo}>
                                                 {s.indirizzo}
@@ -327,14 +330,16 @@ export default function AdminDashboard() {
                             {/* Grid Data */}
                             <div className="detail-grid">
                                 <DetailItem label="Matricola Contatore" value={selectedSub.matricola} />
-                                <DetailItem label="Utente" value={selectedSub.utente} />
+                                <DetailItem label="Codice Fiscale" value={selectedSub.codice_fiscale} />
+                                <DetailItem label="Cognome" value={selectedSub.cognome} />
+                                <DetailItem label="Nome" value={selectedSub.nome} />
+                                <DetailItem label="Telefono" value={selectedSub.telefono} />
+                                <DetailItem label="Email" value={selectedSub.email || "—"} />
                                 <DetailItem label="Indirizzo" value={selectedSub.indirizzo} fullWidth />
                                 <DetailItem label="Uso" value={selectedSub.uso} />
                                 <DetailItem label="Data Lettura" value={selectedSub.data_lettura} />
                                 <DetailItem label="Lettura Attuale" value={`${selectedSub.lettura_annuale} mc`} highlight />
                                 <DetailItem label="Lettura Precedente" value={selectedSub.lettura_precedente ? `${selectedSub.lettura_precedente} mc` : "—"} />
-                                <DetailItem label="N. Utenza" value={selectedSub.numero_utenza || "—"} />
-                                <DetailItem label="N. Fattura" value={selectedSub.numero_fattura || "—"} />
                             </div>
 
                             {/* Photo */}
@@ -379,6 +384,7 @@ export default function AdminDashboard() {
         </div>
     );
 }
+
 
 function DetailItem({ label, value, fullWidth, highlight }: { label: string, value: string, fullWidth?: boolean, highlight?: boolean }) {
     return (
