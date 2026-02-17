@@ -187,45 +187,60 @@ export default function AdminDashboard() {
 
                     {/* Toolbar */}
                     <div className="toolbar">
-                        <div className="search-wrapper">
-                            <Search className="search-icon" />
-                            <input
-                                type="text"
-                                placeholder="Cerca per matricola, cognome, nome..."
-                                value={searchTerm}
-                                onChange={(e) => { setSearchTerm(e.target.value); setPage(0); }}
-                                className="search-input"
-                            />
+                        <div className="filter-group">
+                            <label className="filter-label">Ricerca Libera</label>
+                            <div className="search-wrapper">
+                                <Search className="search-icon" />
+                                <input
+                                    type="text"
+                                    placeholder="Cerca per matricola, cognome, nome..."
+                                    value={searchTerm}
+                                    onChange={(e) => { setSearchTerm(e.target.value); setPage(0); }}
+                                    className="search-input"
+                                />
+                            </div>
                         </div>
 
-                        <div className="date-filter-wrapper">
-                            <Calendar className="date-icon" />
-                            <input
-                                type="date"
-                                value={dateFilter}
-                                onChange={(e) => { setDateFilter(e.target.value); setPage(0); }}
-                                className="date-input"
-                                title="Filtra per data di invio"
-                            />
-                            {dateFilter && (
-                                <button
-                                    onClick={() => setDateFilter("")}
-                                    className="clear-date"
-                                    title="Rimuovi filtro data"
-                                >
-                                    <X size={14} />
-                                </button>
+                        <div className="filter-group">
+                            <label className="filter-label">Filtra per Data</label>
+                            <div className="date-filter-wrapper">
+                                <Calendar className="date-icon" />
+                                <input
+                                    type="date"
+                                    value={dateFilter}
+                                    onChange={(e) => { setDateFilter(e.target.value); setPage(0); }}
+                                    className="date-input"
+                                    title="Mostra solo le autoletture inviate in questa data"
+                                />
+                                {dateFilter && (
+                                    <button
+                                        onClick={() => setDateFilter("")}
+                                        className="clear-date"
+                                        title="Rimuovi filtro data"
+                                    >
+                                        <X size={14} />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="filter-group" style={{ alignItems: 'flex-start' }}>
+                            <label className="filter-label" style={{ opacity: 0 }}>Esporta</label>
+                            <button
+                                onClick={downloadCSV}
+                                disabled={!filtered.length}
+                                className={`btn-primary ${(searchTerm || dateFilter) ? 'is-filtered' : ''}`}
+                            >
+                                <Download size={16} />
+                                {(searchTerm || dateFilter) ? 'Esporta Risultati Filtrati' : 'Esporta Tutto (CSV)'}
+                            </button>
+                            {(searchTerm || dateFilter) && (
+                                <p className="filter-helper">
+                                    <CheckCircle2 size={12} color="#10b981" />
+                                    Il file conterrà solo i dati filtrati
+                                </p>
                             )}
                         </div>
-
-                        <button
-                            onClick={downloadCSV}
-                            disabled={!submissions.length}
-                            className="btn-primary"
-                        >
-                            <Download size={16} />
-                            Esporta CSV
-                        </button>
                     </div>
 
                     {error && (
