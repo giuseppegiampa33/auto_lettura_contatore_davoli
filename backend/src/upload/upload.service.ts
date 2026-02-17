@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { S3Client, PutObjectCommand, CreateBucketCommand, HeadBucketCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, CreateBucketCommand, HeadBucketCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
 import * as crypto from 'crypto';
 
@@ -61,6 +61,20 @@ export class UploadService implements OnModuleInit {
             return `${publicUrl}/${this.bucketName}/${fileName}`;
         } catch (error) {
             this.logger.error(`Failed to upload file: ${error.message}`);
+            throw error;
+        }
+    }
+
+    async getFile(fileName: string) {
+        try {
+            const command = new GetObjectCommand({
+                Bucket: this.bucketName,
+                Key: fileName,
+            });
+            const response = await this.s3Client.send(command);
+            return response;
+        } catch (error) {
+            this.logger.error(`Failed to get file: ${error.message}`);
             throw error;
         }
     }
