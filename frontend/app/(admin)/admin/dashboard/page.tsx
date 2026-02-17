@@ -90,13 +90,13 @@ export default function AdminDashboard() {
     };
 
     const downloadCSV = () => {
-        if (!submissions.length) return;
+        if (!filtered.length) return;
         const headers = [
             "ID", "Matricola", "Cognome", "Nome", "Codice Fiscale", "Telefono", "Email", "Indirizzo", "Uso",
             "Data Lettura", "Lettura Annuale (mc)", "Lettura Precedente (mc)",
             "Data Invio",
         ];
-        const rows = submissions.map((s) => [
+        const rows = filtered.map((s) => [
             s.id, s.matricola, s.cognome, s.nome, s.codice_fiscale, s.telefono, s.email ?? "", s.indirizzo, s.uso,
             s.data_lettura, s.lettura_annuale, s.lettura_precedente ?? "",
             new Date(s.created_at).toLocaleString("it-IT"),
