@@ -18,6 +18,8 @@ import {
     CheckCircle2
 } from "lucide-react";
 
+import "./admin-dashboard.css";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 interface Submission {
@@ -125,142 +127,142 @@ export default function AdminDashboard() {
     ];
 
     return (
-        <div className="flex-1 bg-[#f8fafc] animate-fade-in pb-20 overflow-x-hidden">
-            {/* Header Background */}
-            <div className="bg-white border-b border-slate-200">
-                <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Dashboard Amministrativa</h1>
-                        <p className="text-slate-500 text-sm mt-1">Gestione e monitoraggio delle autoletture</p>
+        <div className="admin-dashboard-root">
+            {/* Header */}
+            <div className="dashboard-header">
+                <div className="header-container">
+                    <div className="header-title">
+                        <h1>Dashboard Amministrativa</h1>
+                        <p>Gestione e monitoraggio delle autoletture</p>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="header-actions">
                         <button
                             onClick={fetchSubmissions}
                             disabled={loading}
-                            className="h-10 px-4 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center gap-2"
+                            className="btn-secondary"
                         >
-                            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-                            <span className="hidden sm:inline">Aggiorna</span>
+                            <RefreshCw className={loading ? "animate-spin" : ""} size={16} />
+                            <span>Aggiorna</span>
                         </button>
                         <button
                             onClick={logout}
-                            className="h-10 px-4 bg-red-50 text-red-600 border border-red-100 rounded-xl text-sm font-semibold hover:bg-red-100 transition-all flex items-center gap-2"
+                            className="btn-danger"
                         >
-                            <LogOut className="w-4 h-4" />
-                            <span className="hidden sm:inline">Esci</span>
+                            <LogOut size={16} />
+                            <span>Esci</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+            <div className="dashboard-content">
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="stats-grid">
                     {stats.map((stat, i) => (
-                        <div key={i} className="bg-white rounded-[20px] p-6 border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-5 hover:-translate-y-1 transition-transform duration-300">
-                            <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shrink-0">
-                                <stat.icon className="w-6 h-6" />
+                        <div key={i} className="stats-card">
+                            <div className="stats-icon">
+                                <stat.icon size={24} />
                             </div>
-                            <div>
-                                <p className="text-slate-500 text-sm font-medium">{stat.label}</p>
-                                <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                            <div className="stats-info">
+                                <p>{stat.label}</p>
+                                <p>{stat.value}</p>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Main Content Card */}
-                <div className="bg-white rounded-[24px] border border-slate-200 shadow-sm overflow-hidden">
+                {/* Main Card (Table) */}
+                <div className="main-card">
 
                     {/* Toolbar */}
-                    <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
-                        <div className="relative max-w-sm w-full">
-                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <div className="toolbar">
+                        <div className="search-wrapper">
+                            <Search className="search-icon" />
                             <input
                                 type="text"
                                 placeholder="Cerca per matricola, utente..."
                                 value={searchTerm}
                                 onChange={(e) => { setSearchTerm(e.target.value); setPage(0); }}
-                                className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                className="search-input"
                             />
                         </div>
 
                         <button
                             onClick={downloadCSV}
                             disabled={!submissions.length}
-                            className="h-10 px-5 bg-[#2563eb] text-white rounded-xl text-sm font-semibold hover:bg-blue-700 shadow-[0_2px_10px_rgba(37,99,235,0.2)] hover:shadow-[0_4px_14px_rgba(37,99,235,0.3)] transition-all flex items-center gap-2 disabled:opacity-50 disabled:shadow-none"
+                            className="btn-primary"
                         >
-                            <Download className="w-4 h-4" />
+                            <Download size={16} />
                             Esporta CSV
                         </button>
                     </div>
 
                     {error && (
-                        <div className="m-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm border border-red-100 flex items-center gap-2">
-                            <span className="font-bold">Errore:</span> {error}
+                        <div style={{ margin: 24, padding: 16, background: '#fef2f2', color: '#dc2626', borderRadius: 12, fontSize: 14, border: '1px solid #fee2e2' }}>
+                            <span style={{ fontWeight: 800 }}>Errore:</span> {error}
                         </div>
                     )}
 
                     {/* Table */}
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                    <div className="table-responsive">
+                        <table className="data-table">
                             <thead>
-                                <tr className="border-b border-slate-100 bg-slate-50/50 text-xs uppercase tracking-wider text-slate-500 font-semibold">
-                                    <th className="px-6 py-4">Data Invio</th>
-                                    <th className="px-6 py-4">Matricola</th>
-                                    <th className="px-6 py-4">Utente</th>
-                                    <th className="px-6 py-4">Indirizzo</th>
-                                    <th className="px-6 py-4">Uso</th>
-                                    <th className="px-6 py-4 text-right">Lettura (mc)</th>
-                                    <th className="px-6 py-4 text-center">Azioni</th>
+                                <tr>
+                                    <th>Data Invio</th>
+                                    <th>Matricola</th>
+                                    <th>Utente</th>
+                                    <th>Indirizzo</th>
+                                    <th>Uso</th>
+                                    <th style={{ textAlign: 'right' }}>Lettura (mc)</th>
+                                    <th style={{ textAlign: 'center' }}>Azioni</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-sm">
+                            <tbody>
                                 {loading ? (
                                     <tr>
-                                        <td colSpan={7} className="px-6 py-12 text-center">
-                                            <Loader2 className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-2" />
-                                            <p className="text-slate-500">Caricamento dati...</p>
+                                        <td colSpan={7} style={{ padding: '48px 0', textAlign: 'center' }}>
+                                            <Loader2 className="animate-spin" size={32} style={{ color: '#2563eb', margin: '0 auto 8px' }} />
+                                            <p style={{ color: '#64748b' }}>Caricamento dati...</p>
                                         </td>
                                     </tr>
                                 ) : paged.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                                        <td colSpan={7} style={{ padding: '48px 0', textAlign: 'center', color: '#64748b' }}>
                                             Nessuna autolettura trovata.
                                         </td>
                                     </tr>
                                 ) : (
                                     paged.map((s) => (
-                                        <tr key={s.id} className="border-b border-slate-50 hover:bg-blue-50/30 transition-colors group">
-                                            <td className="px-6 py-4 text-slate-500">
+                                        <tr key={s.id}>
+                                            <td style={{ color: '#64748b' }}>
                                                 {new Date(s.created_at).toLocaleDateString("it-IT", { day: '2-digit', month: 'short', year: 'numeric' })}
                                             </td>
-                                            <td className="px-6 py-4 font-mono font-medium text-slate-700">
+                                            <td style={{ fontFamily: 'monospace', fontWeight: 600 }}>
                                                 {s.matricola}
                                             </td>
-                                            <td className="px-6 py-4 font-medium text-slate-900">
+                                            <td style={{ fontWeight: 500, color: '#0f172a' }}>
                                                 {s.utente}
                                             </td>
-                                            <td className="px-6 py-4 text-slate-500 max-w-[200px] truncate" title={s.indirizzo}>
+                                            <td style={{ color: '#64748b', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={s.indirizzo}>
                                                 {s.indirizzo}
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 capitalize border border-blue-100">
+                                            <td>
+                                                <span className="status-badge">
                                                     {s.uso}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-right font-mono text-slate-700">
+                                            <td style={{ textAlign: 'right', fontFamily: 'monospace' }}>
                                                 {s.lettura_annuale}
                                             </td>
-                                            <td className="px-6 py-4 text-center">
+                                            <td style={{ textAlign: 'center' }}>
                                                 <button
                                                     onClick={() => setSelectedSub(s)}
-                                                    className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                                    className="btn-icon"
                                                     title="Vedi Dettagli"
                                                 >
-                                                    <Eye className="w-4 h-4" />
+                                                    <Eye size={16} color="#94a3b8" />
                                                 </button>
                                             </td>
                                         </tr>
@@ -272,24 +274,24 @@ export default function AdminDashboard() {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="p-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/30">
-                            <span className="text-xs font-medium text-slate-500">
+                        <div className="pagination">
+                            <span className="pagination-info">
                                 Pagina {page + 1} di {totalPages}
                             </span>
-                            <div className="flex gap-2">
+                            <div className="pagination-controls">
                                 <button
                                     onClick={() => setPage(p => Math.max(0, p - 1))}
                                     disabled={page === 0}
-                                    className="p-2 bg-white border border-slate-200 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors"
+                                    className="btn-icon"
                                 >
-                                    <ChevronLeft className="w-4 h-4 text-slate-600" />
+                                    <ChevronLeft size={16} />
                                 </button>
                                 <button
                                     onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                                     disabled={page >= totalPages - 1}
-                                    className="p-2 bg-white border border-slate-200 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors"
+                                    className="btn-icon"
                                 >
-                                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                                    <ChevronRight size={16} />
                                 </button>
                             </div>
                         </div>
@@ -300,31 +302,30 @@ export default function AdminDashboard() {
             {/* Modal - Detail */}
             {selectedSub && (
                 <div
-                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
+                    className="modal-backdrop"
                     onClick={() => setSelectedSub(null)}
                 >
                     <div
-                        className="bg-white rounded-[28px] shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-slide-down border border-white/20"
+                        className="modal-content"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Modal Header */}
-                        <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white z-10">
+                        <div className="modal-header">
                             <div>
-                                <h3 className="text-xl font-bold text-slate-900">Dettaglio Pratica</h3>
-                                <p className="text-sm text-slate-400 font-mono mt-1">ID: {selectedSub.id}</p>
+                                <h3>Dettaglio Pratica</h3>
+                                <p>ID: {selectedSub.id}</p>
                             </div>
                             <button
                                 onClick={() => setSelectedSub(null)}
-                                className="p-2 bg-slate-50 hover:bg-slate-100 rounded-full text-slate-500 transition-colors"
+                                className="btn-close"
                             >
-                                <X className="w-5 h-5" />
+                                <X size={20} />
                             </button>
                         </div>
 
-                        <div className="p-8 space-y-8">
-
+                        <div className="modal-body">
                             {/* Grid Data */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                            <div className="detail-grid">
                                 <DetailItem label="Matricola Contatore" value={selectedSub.matricola} />
                                 <DetailItem label="Utente" value={selectedSub.utente} />
                                 <DetailItem label="Indirizzo" value={selectedSub.indirizzo} fullWidth />
@@ -338,25 +339,25 @@ export default function AdminDashboard() {
 
                             {/* Photo */}
                             {selectedSub.foto_url && (
-                                <div className="space-y-3">
-                                    <h4 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
-                                        <CheckCircle2 className="w-4 h-4 text-green-500" />
+                                <div className="photo-section">
+                                    <h4 className="photo-title">
+                                        <CheckCircle2 size={16} color="#22c55e" />
                                         Prova Fotografica
                                     </h4>
-                                    <div className="bg-slate-50 p-2 rounded-2xl border border-slate-100">
+                                    <div className="photo-container">
                                         <img
                                             src={selectedSub.foto_url}
                                             alt="Foto contatore"
-                                            className="w-full rounded-xl object-contain max-h-[400px]"
+                                            className="photo-img"
                                         />
                                     </div>
                                     <a
                                         href={selectedSub.foto_url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium"
+                                        className="photo-link"
                                     >
-                                        <Eye className="w-4 h-4" />
+                                        <Eye size={16} />
                                         Apri originale
                                     </a>
                                 </div>
@@ -364,10 +365,10 @@ export default function AdminDashboard() {
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="px-8 py-5 border-t border-slate-100 bg-slate-50 rounded-b-[28px] flex justify-end">
+                        <div className="modal-footer">
                             <button
                                 onClick={() => setSelectedSub(null)}
-                                className="px-6 py-2.5 bg-white border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 transition-colors shadow-sm"
+                                className="btn-secondary"
                             >
                                 Chiudi
                             </button>
@@ -381,9 +382,9 @@ export default function AdminDashboard() {
 
 function DetailItem({ label, value, fullWidth, highlight }: { label: string, value: string, fullWidth?: boolean, highlight?: boolean }) {
     return (
-        <div className={`${fullWidth ? "col-span-1 md:col-span-2" : "col-span-1"}`}>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1.5">{label}</p>
-            <p className={`font-medium ${highlight ? "text-blue-600 font-bold text-lg" : "text-slate-800"}`}>
+        <div className={`detail-item ${fullWidth ? "full-width" : ""}`}>
+            <p className="detail-label">{label}</p>
+            <p className={`detail-value ${highlight ? "highlight" : ""}`}>
                 {value}
             </p>
         </div>
