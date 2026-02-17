@@ -1,9 +1,15 @@
 import { Controller, Post, Body, Get, UseGuards, Ip, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AdminService } from './admin.service';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 class LoginDto {
+    @IsString()
+    @IsNotEmpty()
     username: string;
+
+    @IsString()
+    @IsNotEmpty()
     password: string;
 }
 
