@@ -43,6 +43,22 @@ export default function Header() {
         return () => mq.removeEventListener("change", handler);
     }, []);
 
+    const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (href.startsWith("/#") && pathname === "/") {
+            e.preventDefault();
+            const id = href.split("#")[1];
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+                setOpen(false);
+                // Also update URL without reload to keep progress
+                window.history.pushState(null, "", href);
+            }
+        } else {
+            setOpen(false);
+        }
+    };
+
     return (
         <>
             <header
@@ -92,6 +108,7 @@ export default function Header() {
                                 <Link
                                     key={l.href}
                                     href={l.href}
+                                    onClick={(e) => handleAnchorClick(e, l.href)}
                                     style={{
                                         fontSize: 14,
                                         fontWeight: pathname === l.href ? 600 : 500,
@@ -311,7 +328,7 @@ export default function Header() {
                                 <Link
                                     key={l.href}
                                     href={l.href}
-                                    onClick={() => setOpen(false)}
+                                    onClick={(e) => handleAnchorClick(e, l.href)}
                                     style={{
                                         display: "flex",
                                         alignItems: "center",
