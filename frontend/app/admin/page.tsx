@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Loader2, AlertTriangle } from "lucide-react";
+import { Lock, Loader2, ArrowRight, ShieldCheck, AlertCircle } from "lucide-react";
+import "./admin-login.css";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
@@ -42,31 +43,40 @@ export default function AdminLoginPage() {
     };
 
     return (
-        <div className="min-h-[80vh] flex items-center justify-center px-4 animate-fade-in">
-            <div className="bg-bg-card border border-border rounded-2xl shadow-sm max-w-md w-full overflow-hidden">
-                <div className="bg-gradient-to-r from-primary-dark to-primary text-white px-8 py-8 text-center">
-                    <div className="w-16 h-16 bg-white/15 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Lock className="w-8 h-8" />
-                    </div>
-                    <h2 className="text-2xl font-bold">Area Riservata</h2>
-                    <p className="text-sm text-blue-200 mt-1">
-                        Accesso per il personale del Comune
+        <div className="admin-login-body">
+            {/* Background Decor */}
+            <div className="admin-login-decor-1" />
+            <div className="admin-login-decor-2" />
+
+            <div className="admin-login-card">
+
+                {/* 1. Pill Badge */}
+                <div className="admin-login-badge">
+                    <Lock className="w-3.5 h-3.5" />
+                    Area Riservata
+                </div>
+
+                {/* 2. Header */}
+                <div className="admin-login-header">
+                    <h1 className="admin-login-title">
+                        Bentornato
+                    </h1>
+                    <p className="admin-login-subtitle">
+                        Accedi al pannello per gestire le autoletture comunali.
                     </p>
                 </div>
 
-                <form onSubmit={handleLogin} className="p-8 space-y-5">
+                {/* 3. Form Section */}
+                <form onSubmit={handleLogin} className="admin-login-form">
                     {error && (
-                        <div className="bg-red-50 border border-danger/30 rounded-xl p-3 flex items-center gap-2 text-sm text-danger animate-slide-down">
-                            <AlertTriangle className="w-4 h-4 shrink-0" />
-                            {error}
+                        <div className="admin-login-error">
+                            <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                            <p className="admin-login-error-text">{error}</p>
                         </div>
                     )}
 
-                    <div>
-                        <label
-                            htmlFor="username"
-                            className="block text-sm font-semibold text-text mb-1.5"
-                        >
+                    <div className="admin-input-group">
+                        <label htmlFor="username" className="admin-input-label">
                             Nome utente
                         </label>
                         <input
@@ -75,16 +85,13 @@ export default function AdminLoginPage() {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
-                            className="w-full px-4 py-3 rounded-xl border border-border bg-white text-text focus:ring-2 focus:ring-accent focus:border-accent transition-all outline-none text-sm"
+                            className="admin-input-field"
                             placeholder="admin"
                         />
                     </div>
 
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-semibold text-text mb-1.5"
-                        >
+                    <div className="admin-input-group">
+                        <label htmlFor="password" className="admin-input-label">
                             Password
                         </label>
                         <input
@@ -93,26 +100,36 @@ export default function AdminLoginPage() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            className="w-full px-4 py-3 rounded-xl border border-border bg-white text-text focus:ring-2 focus:ring-accent focus:border-accent transition-all outline-none text-sm"
+                            className="admin-input-field"
                             placeholder="••••••••"
                         />
                     </div>
 
+                    {/* 4. Action Button */}
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-primary text-white font-bold py-3 px-6 rounded-xl hover:bg-primary-light transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="admin-submit-btn"
                     >
                         {loading ? (
                             <>
                                 <Loader2 className="w-5 h-5 animate-spin" />
-                                Accesso...
+                                Caricamento...
                             </>
                         ) : (
-                            "Accedi"
+                            <>
+                                Accedi al Pannello
+                                <ArrowRight className="w-5 h-5" />
+                            </>
                         )}
                     </button>
                 </form>
+
+                {/* 5. Footer Security */}
+                <div className="admin-footer-security">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Connessione protetta RSA 2048-bit</span>
+                </div>
             </div>
         </div>
     );

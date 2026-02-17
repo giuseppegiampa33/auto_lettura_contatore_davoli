@@ -1,0 +1,204 @@
+.admin-login-body {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.admin-login-decor-1 {
+    position: absolute;
+    top: -15%;
+    right: -10%;
+    width: 50vw;
+    height: 50vw;
+    background-color: rgba(37, 99, 235, 0.04);
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+}
+
+.admin-login-decor-2 {
+    position: absolute;
+    bottom: -15%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background-color: rgba(100, 116, 139, 0.04);
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+}
+
+.admin-login-card {
+    max-width: 500px;
+    /* Mantengo la dimensione del container */
+    width: 100%;
+    background: #ffffff;
+    border-radius: 40px;
+    padding: 80px 60px;
+    /* Aumento il padding interno per rimpicciolire l'area dei contenuti */
+    box-shadow: 0 12px 60px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.admin-login-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+    border: 1px solid rgba(37, 99, 235, 0.08);
+}
+
+.admin-login-header {
+    margin-bottom: 32px;
+    width: 100%;
+}
+
+.admin-login-title {
+    font-size: 28px;
+    /* Rimpicciolito */
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+}
+
+.admin-login-subtitle {
+    font-size: 14px;
+    /* Rimpicciolito */
+    color: #64748b;
+    line-height: 1.5;
+    max-width: 240px;
+    margin: 0 auto;
+}
+
+.admin-login-form {
+    width: 100%;
+    max-width: 320px;
+    /* Rimpicciolisco l'area del form per centraggio e ordine */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.admin-login-error {
+    background: #fef2f2;
+    border: 1px solid #fee2e2;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+.admin-login-error-text {
+    font-size: 12px;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.admin-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+}
+
+.admin-input-label {
+    font-size: 11px;
+    /* Rimpicciolito */
+    font-weight: 700;
+    color: #94a3b8;
+    margin-left: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.admin-input-field {
+    width: 100%;
+    padding: 12px 16px;
+    /* Rimpicciolito */
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 500;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.admin-input-field:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.06);
+}
+
+.admin-submit-btn {
+    width: 100%;
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+    /* Rimpicciolito */
+    padding: 14px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15);
+    transition: all 0.2s;
+}
+
+.admin-submit-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+}
+
+.admin-submit-btn:active {
+    transform: scale(0.98);
+}
+
+.admin-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.admin-footer-security {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #f1f5f9;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #cbd5e1;
+    font-weight: 600;
+}
