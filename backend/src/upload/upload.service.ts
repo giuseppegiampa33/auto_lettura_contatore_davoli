@@ -58,7 +58,7 @@ export class UploadService implements OnModuleInit {
             // Return the URL. Depending on MinIO/S3 setup, construction might vary.
             // We use S3_PUBLIC_URL for the browser to access files
             const publicUrl = this.configService.get<string>('S3_PUBLIC_URL', 'http://localhost:9002');
-            return `${publicUrl}/${this.bucketName}/${fileName}`;
+            return `${publicUrl}/${fileName}`;
         } catch (error) {
             this.logger.error(`Failed to upload file: ${error.message}`);
             throw error;
