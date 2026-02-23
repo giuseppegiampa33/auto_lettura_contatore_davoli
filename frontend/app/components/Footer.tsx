@@ -12,7 +12,7 @@ const SERVICES = [
 ];
 
 const CONTACTS = [
-    { icon: MapPin, text: "Piazza Municipio, 1 — 88040 Davoli (CZ)" },
+    { icon: MapPin, text: "Luogo Comune" },
     { icon: Phone, text: "0967 12345", href: "tel:096712345" },
 ];
 

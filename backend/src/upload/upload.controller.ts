@@ -1,27 +1,29 @@
-import { Controller, Get, Param, Res, StreamableFile, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Param, Res, NotFoundException } from '@nestjs/common';
 import { Response } from 'express';
 import { UploadService } from './upload.service';
-import { Readable } from 'stream';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as mime from 'mime-types';
 
 @Controller('uploads')
 export class UploadController {
     constructor(private readonly uploadService: UploadService) { }
 
     @Get(':filename')
-    async getFile(@Param('filename') filename: string, @Res({ passthrough: true }) res: Response) {
-        try {
-            const data = await this.uploadService.getFile(filename);
+    async getFile(@Param('filename') filename: string, @Res() res: Response) {
+        // Sicurezza: blocca path traversal
+        const safeName = path.basename(filename);
+        const filePath = this.uploadService.getFilePath(safeName);
 
-            res.set({
-                'Content-Type': data.ContentType,
-                'Content-Length': data.ContentLength,
-                'Cache-Control': 'public, max-age=31536000',
-            });
-
-            // The Body object from S3 is a stream in the Node environment
-            return new StreamableFile(data.Body as Readable);
-        } catch (error) {
-            throw new NotFoundException('File not found');
+        if (!fs.existsSync(filePath)) {
+            throw new NotFoundException('File non trovato');
         }
+
+        const contentType = mime.lookup(filePath) || 'application/octet-stream';
+        res.set({
+            'Content-Type': contentType,
+            'Cache-Control': 'public, max-age=31536000',
+        });
+        res.sendFile(filePath);
     }
 }

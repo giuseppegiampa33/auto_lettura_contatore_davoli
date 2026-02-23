@@ -12,9 +12,7 @@ import { AuditLog } from './admin/audit-log.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -25,7 +23,7 @@ import { AuditLog } from './admin/audit-log.entity';
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
         entities: [Submission, AdminUser, AuditLog],
-        synchronize: true, // Auto-create tables (dev only)
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),

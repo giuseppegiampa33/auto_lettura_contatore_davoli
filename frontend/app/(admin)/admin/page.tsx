@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Loader2, ArrowRight, ShieldCheck, AlertCircle } from "lucide-react";
 import "./admin-login.css";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://autolettura.corapi.it";
 
 export default function AdminLoginPage() {
     const router = useRouter();
